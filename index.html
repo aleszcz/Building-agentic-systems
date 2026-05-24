@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Agentic Systems — Learning Schedule</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #e2e8f0;
+    line-height: 1.65;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #334155;
+  }
+
+  header h1 {
+    font-size: 2.6rem;
+    color: #f1f5f9;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  header p.subtitle {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 24px;
+    font-size: 0.9rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cbd5e1;
+  }
+
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+  }
+
+  .week {
+    background: #1e293b;
+    border-radius: 14px;
+    margin-bottom: 28px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid #334155;
+  }
+
+  .week-header {
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid #334155;
+  }
+
+  .week-1 .week-header { background: linear-gradient(90deg, #1e40af 0%, #1e3a8a 100%); }
+  .week-2 .week-header { background: linear-gradient(90deg, #7c3aed 0%, #5b21b6 100%); }
+  .week-3 .week-header { background: linear-gradient(90deg, #db2777 0%, #9d174d 100%); }
+  .week-4 .week-header { background: linear-gradient(90deg, #ea580c 0%, #9a3412 100%); }
+  .week-5 .week-header { background: linear-gradient(90deg, #059669 0%, #065f46 100%); }
+  .week-6 .week-header { background: linear-gradient(90deg, #0891b2 0%, #155e75 100%); }
+
+  .week-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .week-number {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .week-name {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+
+  .week-meta {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .week-body {
+    padding: 28px;
+  }
+
+  .goal {
+    background: #0f172a;
+    padding: 16px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #60a5fa;
+    margin-bottom: 22px;
+    color: #cbd5e1;
+    font-style: italic;
+  }
+
+  .goal strong {
+    color: #f1f5f9;
+    font-style: normal;
+  }
+
+  .resource {
+    background: #0f172a;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border: 1px solid #334155;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .resource:hover {
+    border-color: #60a5fa;
+    transform: translateY(-1px);
+  }
+
+  .resource-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .resource-title {
+    color: #f1f5f9;
+    font-size: 1.1rem;
+    font-weight: 600;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .resource-type {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .type-article { background: #1e40af; color: #dbeafe; }
+  .type-paper { background: #7c3aed; color: #ede9fe; }
+  .type-guide { background: #059669; color: #d1fae5; }
+  .type-reference { background: #ea580c; color: #ffedd5; }
+  .type-blog { background: #0891b2; color: #cffafe; }
+
+  .resource-link {
+    display: inline-block;
+    color: #60a5fa;
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    word-break: break-all;
+  }
+
+  .resource-link:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+  }
+
+  .resource-summary {
+    color: #cbd5e1;
+    margin-bottom: 14px;
+  }
+
+  .key-points {
+    background: #1e293b;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-top: 12px;
+  }
+
+  .key-points h4 {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .key-points ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .key-points li {
+    padding: 4px 0 4px 22px;
+    position: relative;
+    color: #cbd5e1;
+    font-size: 0.93rem;
+  }
+
+  .key-points li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #60a5fa;
+    font-weight: 700;
+  }
+
+  .estimated-time {
+    display: inline-block;
+    background: #334155;
+    color: #cbd5e1;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-top: 8px;
+  }
+
+  .final-project {
+    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+    padding: 36px;
+    border-radius: 14px;
+    margin-top: 30px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .final-project h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 14px;
+  }
+
+  .final-project p {
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 750px;
+    margin: 0 auto 18px;
+  }
+
+  .project-checklist {
+    display: inline-block;
+    text-align: left;
+    margin-top: 12px;
+    color: #fff;
+  }
+
+  .project-checklist li {
+    padding: 6px 0 6px 28px;
+    position: relative;
+    list-style: none;
+  }
+
+  .project-checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: #34d399;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid #334155;
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    header h1 { font-size: 2rem; }
+    .week-name { font-size: 1.15rem; }
+    .week-body { padding: 20px; }
+    .resource { padding: 16px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Building Agentic Systems</h1>
+    <p class="subtitle">A 6-week schedule that takes you from prompt engineering fundamentals through transformer theory, LLM landscape, advanced prompting, and finally agent planning and orchestration with LangGraph.</p>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#1e40af"></span> Foundations Article</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#7c3aed"></span> Research Paper</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#059669"></span> Practical Guide</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#ea580c"></span> Reference</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#0891b2"></span> Blog Post</div>
+    </div>
+  </header>
+
+  <!-- WEEK 1 -->
+  <div class="week week-1">
+    <div class="week-header">
+      <div class="week-title">
+        <div class="week-number">1</div>
+        <div class="week-name">Prompt Engineering Fundamentals</div>
+      </div>
+      <div class="week-meta">~4-5 hours</div>
+    </div>
+    <div class="week-body">
+      <div class="goal">
+        <strong>Goal:</strong> Understand what a prompt is, why prompt design matters, and learn the basic patterns (zero-shot, few-shot, chain-of-thought) you'll use everywhere else in the course.
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">Prompt Engineering: Overview and Guide</div>
+          <span class="resource-type type-article">Article</span>
+        </div>
+        <a class="resource-link" href="https://cloud.google.com/discover/what-is-prompt-engineering?hl=en" target="_blank">cloud.google.com/discover/what-is-prompt-engineering</a>
+        <p class="resource-summary">Google Cloud's foundational guide to prompt engineering. Defines what prompts are, walks through prompt formats, context, examples, fine-tuning, and multi-turn conversations. Covers the main prompt types (zero-shot, one-/few-/multi-shot, chain-of-thought) with concrete examples across language tasks, Q&amp;A, code generation, and image generation.</p>
+        <div class="key-points">
+          <h4>What you'll learn</h4>
+          <ul>
+            <li>The difference between zero-shot, few-shot, and chain-of-thought prompting</li>
+            <li>6 strategies for writing better prompts (clear goals, context, specificity, iteration)</li>
+            <li>How to structure prompts for different use cases: writing, Q&amp;A, code, images</li>
+            <li>Why prompt engineering reduces bias and improves model reliability</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ 60-90 min read</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <div class="week week-2">
+    <div class="week-header">
+      <div class="week-title">
+        <div class="week-number">2</div>
+        <div class="week-name">The Transformer — How LLMs Actually Work</div>
+      </div>
+      <div class="week-meta">~6-8 hours</div>
+    </div>
+    <div class="week-body">
+      <div class="goal">
+        <strong>Goal:</strong> Get the architectural foundation. Understand attention, self-attention, and the encoder-decoder structure that every modern LLM (and therefore every agent) is built on.
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">Attention Is All You Need (Vaswani et al., 2017)</div>
+          <span class="resource-type type-paper">Paper</span>
+        </div>
+        <a class="resource-link" href="https://arxiv.org/pdf/1706.03762" target="_blank">arxiv.org/pdf/1706.03762</a>
+        <p class="resource-summary">The original Transformer paper from Google Brain that replaced recurrent and convolutional sequence models with pure attention. Introduces the encoder-decoder architecture with stacked self-attention layers, scaled dot-product attention, multi-head attention (8 parallel heads in the base model), and sinusoidal positional encodings. The base model achieved 28.4 BLEU on English-to-German translation while training in 12 hours on 8 GPUs — a fraction of prior state-of-the-art training cost.</p>
+        <div class="key-points">
+          <h4>Core concepts to internalize</h4>
+          <ul>
+            <li>Self-attention: how every token attends to every other token in one step</li>
+            <li>Scaled dot-product attention: Attention(Q,K,V) = softmax(QKᵀ/√d<sub>k</sub>)V</li>
+            <li>Multi-head attention: parallel attention layers attending to different representation subspaces</li>
+            <li>Positional encoding: how the model knows token order without recurrence</li>
+            <li>Why this architecture parallelizes better than RNNs/LSTMs</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ 3-4 hours (dense, re-read sections 3-4)</span>
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">Dissociating Language and Thought in Large Language Models (Mahowald et al., 2023)</div>
+          <span class="resource-type type-paper">Paper</span>
+        </div>
+        <a class="resource-link" href="https://arxiv.org/pdf/2301.06627" target="_blank">arxiv.org/pdf/2301.06627</a>
+        <p class="resource-summary">A cognitive-science perspective on what LLMs are actually good at — and what they're not. The authors (from UT Austin, Georgia Tech, UCLA, MIT) distinguish <strong>formal linguistic competence</strong> (knowing grammar and patterns) from <strong>functional linguistic competence</strong> (using language to reason, plan, and act in the world). They ground this in human neuroscience: the two rely on different brain networks. LLMs are surprisingly strong on formal competence but spotty on functional competence, which often requires fine-tuning or external modules.</p>
+        <div class="key-points">
+          <h4>Why this matters for agents</h4>
+          <ul>
+            <li>Agents need functional competence — reasoning, planning, world-modeling — not just fluency</li>
+            <li>This paper explains <em>why</em> raw LLMs alone struggle with agentic tasks</li>
+            <li>It justifies the need for tool use, external memory, planning loops, and RAG</li>
+            <li>Sets up the rest of the course: everything we'll build is essentially scaffolding around the functional-competence gap</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ 2-3 hours</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <div class="week week-3">
+    <div class="week-header">
+      <div class="week-title">
+        <div class="week-number">3</div>
+        <div class="week-name">Survey the LLM Landscape</div>
+      </div>
+      <div class="week-meta">~3-4 hours</div>
+    </div>
+    <div class="week-body">
+      <div class="goal">
+        <strong>Goal:</strong> Know what's available, what each model is good at, and how to pick the right LLM for an agentic workload. By the end of this week you should be able to defend a model choice on cost, latency, context window, and agent-readiness.
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">Top LLMs to Use in 2026 (Creole Studios)</div>
+          <span class="resource-type type-reference">Reference</span>
+        </div>
+        <a class="resource-link" href="https://www.creolestudios.com/top-llms/" target="_blank">creolestudios.com/top-llms</a>
+        <p class="resource-summary">A practical breakdown organized around six evaluation criteria: reasoning quality, multimodal capability, cost efficiency, context window size, deployment flexibility, and agent readiness. Covers proprietary leaders (GPT 5.2, Claude 5 family, Gemini 3 Pro/Flash, Grok 5, Amazon Nova) and open-weight options (Llama 4.1 Scout/Maverick, DeepSeek V3.2/R1, Qwen 3.5, Gemma 3, Mistral, Phi 4). Best-for tables by use case: general purpose, coding, reasoning-heavy work, high-volume low-latency, private deployment, multimodal, on-device, and agent workflows.</p>
+        <div class="key-points">
+          <h4>Decisions you should be able to make after this</h4>
+          <ul>
+            <li>Closed API vs open-weight — when each makes sense</li>
+            <li>Why context window matters for agents (long agent loops, RAG, multi-hour sessions)</li>
+            <li>Which models are explicitly designed for tool use and agent workflows</li>
+            <li>The cost/latency tradeoff for high-volume vs deep-reasoning tasks</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ 90-120 min</span>
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">Top 9 Large Language Models (Shakudo, March 2026)</div>
+          <span class="resource-type type-reference">Reference</span>
+        </div>
+        <a class="resource-link" href="https://www.shakudo.io/blog/top-9-large-language-models" target="_blank">shakudo.io/blog/top-9-large-language-models</a>
+        <p class="resource-summary">A second perspective on the LLM market that cross-validates the Creole Studios guide. Covers OpenAI (GPT-5.2 + new open-weight GPT-oss), DeepSeek (V3.2-Exp with Fine-Grained Sparse Attention, R1 for reasoning, Prover-V2 for theorem proving), Qwen (hybrid MoE, 119 languages), Grok (4.1 leads LMArena, Code Fast 1 for agentic coding), Llama (4 multimodal, Scout's 10M context), Claude (Opus 4 + Sonnet 4.5 with 30-hour agent sessions and computer use), Mistral (Mistral 3 family, Devstral, Codestral), Gemini (3 Pro/Flash with Deep Think), and Cohere (Command A optimized for enterprise RAG).</p>
+        <div class="key-points">
+          <h4>Read alongside Creole Studios — focus on</h4>
+          <ul>
+            <li>Which models advertise <em>native</em> agent capabilities (Claude Sonnet 4.5, Grok Code Fast, DeepSeek)</li>
+            <li>Cohere's enterprise/RAG angle vs the consumer-chat leaders</li>
+            <li>How architectural innovations (MoE, sparse attention) affect cost and speed</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ 60-90 min</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 4 -->
+  <div class="week week-4">
+    <div class="week-header">
+      <div class="week-title">
+        <div class="week-number">4</div>
+        <div class="week-name">Advanced Prompting Techniques</div>
+      </div>
+      <div class="week-meta">~6-8 hours</div>
+    </div>
+    <div class="week-body">
+      <div class="goal">
+        <strong>Goal:</strong> Move beyond basic prompting. Learn the techniques that make agents work: chain-of-thought, self-consistency, ReAct, Reflexion, RAG, Tree of Thoughts, and prompt chaining. These are the building blocks you'll wire together in Weeks 5-6.
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">Prompting Techniques (Prompt Engineering Guide / DAIR.AI)</div>
+          <span class="resource-type type-guide">Guide</span>
+        </div>
+        <a class="resource-link" href="https://www.promptingguide.ai/techniques" target="_blank">promptingguide.ai/techniques</a>
+        <p class="resource-summary">The most comprehensive technique catalog available. Each technique has its own page with examples and references to original papers. Work through these in order: Zero-shot → Few-shot → Chain-of-Thought → Self-Consistency → Generate Knowledge Prompting → Prompt Chaining → Tree of Thoughts → Retrieval Augmented Generation → Automatic Reasoning and Tool-use (ART) → ReAct → Reflexion. The site also has dedicated sections on AI Agents, Function Calling, and Context Engineering that bridge directly into Week 5.</p>
+        <div class="key-points">
+          <h4>Priority techniques for agent-builders</h4>
+          <ul>
+            <li><strong>Chain-of-Thought (CoT)</strong> — get the model to reason step by step before answering</li>
+            <li><strong>ReAct</strong> — Reason + Act loop: the foundational pattern for almost every agent</li>
+            <li><strong>Reflexion</strong> — adding a self-critique step after each action</li>
+            <li><strong>RAG</strong> — grounding the model in external documents before it answers</li>
+            <li><strong>Prompt Chaining</strong> — breaking a complex task into a pipeline of smaller prompts</li>
+            <li><strong>Function Calling</strong> — structured tool use via JSON schemas</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ Spread across 3-4 sittings</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 5 -->
+  <div class="week week-5">
+    <div class="week-header">
+      <div class="week-title">
+        <div class="week-number">5</div>
+        <div class="week-name">Planning &amp; Reasoning for Agents</div>
+      </div>
+      <div class="week-meta">~3-4 hours</div>
+    </div>
+    <div class="week-body">
+      <div class="goal">
+        <strong>Goal:</strong> Understand the hardest problem in agentic systems — planning. Learn why off-the-shelf LLMs struggle with multi-step tasks, and the architectural patterns (general-purpose vs domain-specific cognitive architectures) that production agents actually use.
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">Planning for Agents (Harrison Chase, LangChain)</div>
+          <span class="resource-type type-blog">Blog</span>
+        </div>
+        <a class="resource-link" href="https://www.langchain.com/blog/planning-for-agents" target="_blank">langchain.com/blog/planning-for-agents</a>
+        <p class="resource-summary">The fourth installment in LangChain CEO Harrison Chase's "In the Loop" series. Distinguishes short-term action selection (handled well by function calling) from long-horizon planning (still hard). Covers the lowest-hanging fixes (more context, better prompts) and then the bigger idea: <strong>cognitive architectures</strong> — the data-engineering logic around the LLM. Contrasts general-purpose patterns (Plan-and-Solve, Reflexion) with domain-specific cognitive architectures (like the AlphaCodium "flow engineering" approach for code generation). Concludes that nearly every production agent uses a custom domain-specific architecture — and that's why LangGraph exists.</p>
+        <div class="key-points">
+          <h4>Key takeaways</h4>
+          <ul>
+            <li>Function calling = short-term action choice; planning = the longer-horizon sequence</li>
+            <li>Long context windows can <em>hurt</em> performance as the agent gets "distracted"</li>
+            <li>General-purpose architectures (Plan-and-Solve, Reflexion) help, but rarely enough for production</li>
+            <li>Domain-specific cognitive architectures move planning work from the LLM into the engineer's code</li>
+            <li>Code is a great way to communicate "what the agent should do" — sometimes better than a prompt</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ 45-60 min + watch Sequoia AI Ascent talk (~20 min)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 6 -->
+  <div class="week week-6">
+    <div class="week-header">
+      <div class="week-title">
+        <div class="week-number">6</div>
+        <div class="week-name">Orchestration with LangGraph</div>
+      </div>
+      <div class="week-meta">~4-6 hours</div>
+    </div>
+    <div class="week-body">
+      <div class="goal">
+        <strong>Goal:</strong> Learn the framework that turns everything above into a working multi-agent system. By the end you should understand stateful graphs, nodes, edges, human-in-the-loop, and how to scale multi-agent workflows.
+      </div>
+
+      <div class="resource">
+        <div class="resource-header">
+          <div class="resource-title">What is LangGraph? (IBM Think)</div>
+          <span class="resource-type type-article">Article</span>
+        </div>
+        <a class="resource-link" href="https://www.ibm.com/think/topics/langgraph" target="_blank">ibm.com/think/topics/langgraph</a>
+        <p class="resource-summary">An accessible overview of LangGraph, the open-source agent framework built by LangChain. Uses a "Super-Map / Navigator / Cartographer" metaphor to explain graph-based agent architectures. Breaks down the key components: <strong>stateful graphs</strong> (each node is a step that remembers prior state), <strong>cyclical graphs</strong> (loops, essential for agent runtimes), <strong>nodes</strong> (agents or tool calls), <strong>edges</strong> (conditional branches between nodes), <strong>human-in-the-loop</strong>, RAG integration, and LangSmith for managing LLMs inside the graph. Covers scaling via multi-agent workflows, real use cases (chatbots, agent systems, LLM applications, Norwegian Cruise Line's guest-facing AI), and LangGraph Studio's visual interface for non-coders.</p>
+        <div class="key-points">
+          <h4>Concepts to master</h4>
+          <ul>
+            <li><strong>State</strong> — the memory bank that records everything the agent has done</li>
+            <li><strong>Cyclical graphs</strong> — why loops matter (a ReAct agent is literally a loop)</li>
+            <li><strong>Nodes &amp; Edges</strong> — how to compose tools, models, and conditional logic into a workflow</li>
+            <li><strong>Human-in-the-loop</strong> — pausing the agent for human review at critical steps</li>
+            <li><strong>Multi-agent collaboration</strong> — routing tasks across specialized agents in parallel</li>
+            <li>Where LangGraph fits next to LangChain, CrewAI, AutoGen, MetaGPT</li>
+          </ul>
+        </div>
+        <span class="estimated-time">⏱ 60-90 min + hands-on tutorial time</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL PROJECT -->
+  <div class="final-project">
+    <h2>Capstone: Build Your First Agentic System</h2>
+    <p>Apply everything from weeks 1-6 to a real project. Pick a domain you know well — that's where domain-specific cognitive architectures (Week 5) will pay off most.</p>
+    <ul class="project-checklist">
+      <li>Pick an LLM justified by Week 3's criteria (reasoning, context, cost, agent-readiness)</li>
+      <li>Write prompts using Week 1 best practices and Week 4 advanced techniques (CoT, ReAct, RAG)</li>
+      <li>Design a cognitive architecture (Week 5) — not just one giant prompt</li>
+      <li>Implement it as a LangGraph with stateful nodes, conditional edges, and at least one tool call</li>
+      <li>Add a human-in-the-loop checkpoint at a high-stakes step</li>
+      <li>Evaluate it: build a small eval set and measure success rate before and after each change</li>
+    </ul>
+  </div>
+
+  <footer>
+    Schedule generated from your course links · Adjust pacing to your own depth of study.
+  </footer>
+
+</div>
+</body>
+</html>
